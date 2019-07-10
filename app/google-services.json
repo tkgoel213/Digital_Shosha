@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "9333603327",
+    "firebase_url": "https://digitalshosha.firebaseio.com",
+    "project_id": "digitalshosha",
+    "storage_bucket": "digitalshosha.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9333603327:android:7fb0241f16e8fb48",
+        "android_client_info": {
+          "package_name": "com.example.digital_shosha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9333603327-n51n24eecb3fp0b29q0n0gh99uk4k64l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.digital_shosha",
+            "certificate_hash": "0bbdf1774f763678b6a512092b37bdc6299ec142"
+          }
+        },
+        {
+          "client_id": "9333603327-9sqn6dnkgdj6utbn733c41i3sumqt19d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0htiR2M3No0Uya70Vqt5ooq9ZJKQJx-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9333603327-9sqn6dnkgdj6utbn733c41i3sumqt19d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
