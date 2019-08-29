@@ -31,8 +31,6 @@ public class myadapter extends PagerAdapter {
 
     public myadapter(Context context, List<cardviewgetter> cardviewgetterList, LayoutInflater inflater, ViewPager viewPager,int position) {
 
-
-
         this.context = context;
         this.cardviewgetterList = cardviewgetterList;
         this.inflater = inflater;
