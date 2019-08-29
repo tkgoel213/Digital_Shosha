@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:id="@+id/coursecard"
+    app:cardCornerRadius="5dp"
+    app:cardBackgroundColor="@color/colorwhite"
+    android:layout_marginHorizontal="10dp"
+    android:layout_height="wrap_content">
+
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/playbig"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/coursenamesearch"
+        android:fontFamily="@font/pmedium"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:text="facebook"
+        android:textColor="#000" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plight"
+        android:textColor="#666666"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="50dp"
+        android:id="@+id/progresssearch"
+        android:text="0 % completed"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:id="@+id/savetofav"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="end"
+        android:background="@drawable/favyellow"/>
+</androidx.cardview.widget.CardView>

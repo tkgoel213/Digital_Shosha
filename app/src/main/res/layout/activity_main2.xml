@@ -18,8 +18,9 @@
         android:layout_width="match_parent"
         android:id="@+id/bottomnavigation"
         android:layout_height="wrap_content"
-        android:background="@color/colorwhite"
+        android:background="#FFB940"
         android:layout_alignParentBottom="true"
+        app:itemTextColor="@color/colorwhite"
         app:menu="@menu/bottomnavigation"
         ></com.google.android.material.bottomnavigation.BottomNavigationView>
 

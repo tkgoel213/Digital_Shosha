@@ -6,7 +6,7 @@
     <string name="title_activity_login">login</string>
     <string name="facebook_app_id">325646434988768</string>
     <string name="fb_login_protocol_scheme">fb325646434988768</string>
-    <!-- Strings related to login -->
+    <!-- Strings related to signup -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>

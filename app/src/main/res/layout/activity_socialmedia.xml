@@ -3,29 +3,68 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/rectanglesmallgrey"
     android:layout_height="match_parent"
     tools:context=".socialmedia">
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/icon"
+        android:layout_width="25dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/la"
         android:id="@+id/headericon"/>
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/heading"
-    android:textSize="25sp"
-    android:layout_marginLeft="10dp"
-    android:layout_toRightOf="@+id/headericon"
-    android:fontFamily="@font/pextrabold"
-    android:text="SOCIAL MEDIA \n MARKETING"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/contentcard"
+        app:cardCornerRadius="15dp"
+        android:layout_marginTop="30dp"
+        app:cardElevation="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="250dp"
+        android:outlineSpotShadowColor="#DAD9D9"
+        android:layout_marginLeft="70dp"
+        android:layout_height="315dp"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="230dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/media"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:textSize="20dp"
+                android:text="Social Media Marketing"
+                android:textAlignment="center"
+                android:textColor="#020B42"
+                android:fontFamily="@font/pmedium"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerview"
-        android:layout_below="@+id/heading"
-        android:background="@color/colorwhite"
-        ></androidx.recyclerview.widget.RecyclerView>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" >
+
+   <androidx.recyclerview.widget.RecyclerView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_marginHorizontal="20dp"
+       android:id="@+id/recyclercourses"
+       android:layout_marginTop="380dp">
+
+   </androidx.recyclerview.widget.RecyclerView>
+    </ScrollView>
 </RelativeLayout>

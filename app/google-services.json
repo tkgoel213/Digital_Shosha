@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "9333603327-n51n24eecb3fp0b29q0n0gh99uk4k64l.apps.googleusercontent.com",
+          "client_id": "9333603327-7o96fgd0f5s62lajlr65gm0svv70bq9d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.digital_shosha",
@@ -36,7 +36,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "9333603327-9sqn6dnkgdj6utbn733c41i3sumqt19d.apps.googleusercontent.com",
+              "client_id": "9333603327-auf6rgq5l371iigtv4f50s3qd36cv7ve.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

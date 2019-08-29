@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@drawable/rectanglesmall"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/pmedium"
+                android:text="Lets get back "
+                android:textColor="#000"
+                android:textSize="25sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:fontFamily="@font/pmedium"
+                android:text="to learning "
+                android:textColor="#000"
+                android:textSize="25sp"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/heading"
+                android:drawableLeft="@drawable/ic_search_black_24dp"
+                android:hint="Search here"
+                android:fontFamily="@font/plight"
+                android:id="@+id/searchbarhai"
+                android:layout_marginTop="40dp"
+                android:drawablePadding="20dp"
+                android:textAlignment="viewStart"
+                android:layout_marginHorizontal="30dp"
+                android:background="@drawable/editroundgrey"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         adddotsindicator(0);
         mslideviewpager.addOnPageChangeListener(viewlistener);
 
-nextbutton1.setOnClickListener(new View.OnClickListener() {
+      nextbutton1.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         mslideviewpager.setCurrentItem(currentpage +1);
@@ -102,7 +102,7 @@ if(i==0){
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(MainActivity.this, socialmedia.class);
+            Intent intent = new Intent(MainActivity.this, signupactivity.class);
             startActivity(intent);
         }
     });
@@ -122,4 +122,10 @@ if(i==0){
 
         }
     };
+
+    @Override
+    protected void onStart() {
+        startActivity(new Intent(MainActivity.this,homepage.class));
+        super.onStart();
+    }
 }

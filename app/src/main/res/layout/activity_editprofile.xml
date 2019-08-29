@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rectanglecurve"
+    tools:context=".editprofile">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        android:textSize="50sp"
+        android:fontFamily="@font/pmedium"
+        android:layout_marginLeft="60dp"
+        android:textColor="#fff"
+        android:layout_marginTop="10dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/la"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="130dp"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="150dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/editpropiccard"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            app:cardCornerRadius="10dp"
+            android:outlineSpotShadowColor="@color/colorgrey"
+            android:elevation="30dp"
+            android:layout_height="150dp">
+
+                <ImageView
+                    android:id="@+id/photo"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                     />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:id="@+id/editnamecard"
+            android:layout_below="@+id/editpropiccard"
+            android:layout_margin="20dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textAlignment="viewStart"
+                android:fontFamily="@font/plight"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="my name"
+                android:cursorVisible="false"
+                android:fontFamily="@font/pmedium"
+                android:id="@+id/editname"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:id="@+id/editemailcard"
+            android:layout_below="@+id/editnamecard"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="2dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textAlignment="viewStart"
+                android:fontFamily="@font/plight"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="my email"
+                android:fontFamily="@font/pmedium"
+                android:cursorVisible="false"
+                android:id="@+id/editemail"/>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:id="@+id/editcontactnocard"
+            android:layout_below="@+id/editemailcard"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Number"
+                android:textAlignment="viewStart"
+                android:fontFamily="@font/plight"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:cursorVisible="false"
+                android:text="988676767"
+                android:fontFamily="@font/pmedium"
+                android:id="@+id/editcontactno"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/editround"
+            android:fontFamily="@font/pblack"
+            android:layout_marginHorizontal="20dp"
+            android:id="@+id/updateprofile"
+            android:textSize="15dp"
+            android:textColor="@color/colorwhite"
+            android:layout_below="@+id/editcontactnocard"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"
+            android:text="UPDATE"/>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

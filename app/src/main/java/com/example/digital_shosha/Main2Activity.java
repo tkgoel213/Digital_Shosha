@@ -22,7 +22,7 @@ public class Main2Activity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer,
-                    new explore_fragment()).commit();
+                    new resume_fragment()).commit();
         }
     }
 
@@ -35,7 +35,7 @@ public class Main2Activity extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.explore:
-                            selectedFragment = new explore_fragment();
+                            selectedFragment = new resume_fragment();
                             break;
                         case R.id.courses:
                             selectedFragment = new course_fragment();

@@ -2,93 +2,83 @@ package com.example.digital_shosha;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class socialmedia extends AppCompatActivity {
 
-    private RecyclerView mrecyclerview;
-    private FirebaseRecyclerAdapter adapter;
-    private DatabaseReference mdatabase;
-    private FirebaseRecyclerAdapter<retriever, viewholder> mPeopleRVAdapter;
-    private FirebaseDatabase mfirebasedatabase;
+
+    private ImageView s1, s2;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private FirebaseDatabase database;
+    private FirebaseStorage store;
+    private DatabaseReference ref;
+    private TextView coursename1, coursename2;
+    private TextView progress1, progress2;
+    private RecyclerView recyclerView;
+    ArrayList<searchcourses> list = new ArrayList<>();
+    private String uid;
+    int flag = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_socialmedia);
-        mfirebasedatabase=FirebaseDatabase.getInstance();
-        mdatabase=FirebaseDatabase.getInstance().getReference().child("social media");
-        mdatabase.keepSynced(true);
-        Query personsQuery = mdatabase.orderByKey();
 
-        mrecyclerview=(RecyclerView)findViewById(R.id.recyclerview);
-        mrecyclerview.setHasFixedSize(true);
-        mrecyclerview.setLayoutManager(new LinearLayoutManager(this));
+        s1 = (ImageView) findViewById(R.id.savetofav);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclercourses);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        uid = user.getUid();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("courses").child("brand positioning");
 
-        FirebaseRecyclerOptions personsOptions = new FirebaseRecyclerOptions.Builder<retriever>().setQuery(personsQuery, retriever.class).build();
 
-        mPeopleRVAdapter = new FirebaseRecyclerAdapter<retriever, viewholder>(personsOptions) {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
-            protected void onBindViewHolder(viewholder holder, int position, retriever model) {
-                Picasso.get().load(model.getImage()).into(holder.imageviewr, new Callback() {
-                    @Override
-                    public void onSuccess() {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Toast.makeText(socialmedia.this, "could not get image", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                holder.headingview.setText(model.getHeading());
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    list.add(ds.getValue(searchcourses.class));
+                }
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                searchadapter adp = new searchadapter(getApplicationContext(), list);
+                recyclerView.setAdapter(adp);
             }
 
             @Override
-            public viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.socialmediacourses, parent, false);
-
-                return new viewholder(view);
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
-        };
+        });
 
-        mrecyclerview.setAdapter(mPeopleRVAdapter);
-
-
-
-    }
-
-    @Override
-    protected void onStart() {
-super.onStart();
-        if(adapter!=null){
-            adapter.startListening();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        if(adapter!=null){
-            adapter.startListening();
-        }
-        super.onStop();
     }
 }
