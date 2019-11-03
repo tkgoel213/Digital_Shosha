@@ -2,9 +2,6 @@ package com.example.digital_shosha;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.os.PersistableBundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -19,34 +16,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
-import static androidx.viewpager.widget.PagerAdapter.POSITION_UNCHANGED;
 import static java.lang.String.format;
 
 public class socialmediacardsread extends AppCompatActivity implements firebaseloader {
 
     ViewPager viewPager;
     myadapter adapter;
-    DatabaseReference ref, ref1,ref2;
+    DatabaseReference ref, ref1,ref2,ref3,reference;
     FirebaseUser currentuser;
     FirebaseAuth mauth;
-    String key, course,coursename;
+    String key, course,coursename,uid;
     firebaseloader firebaseloader1;
     int currentpage;
     ImageButton prev, next;
     List<cardviewgetter> cardviewgetterList = new ArrayList<>();
     int cardcount;
     TextView cardsleft, cardstotal;
-    double progress;
+    double progress,progressinfirebase;
+    int lastposition;
     ValueEventListener listener;
 
 
@@ -57,7 +51,7 @@ public class socialmediacardsread extends AppCompatActivity implements firebasel
         setContentView(R.layout.activity_course1sm);
         mauth = FirebaseAuth.getInstance();
         currentuser = mauth.getCurrentUser();
-        String uid=currentuser.getUid();
+         uid=currentuser.getUid();
         cardsleft = (TextView) findViewById(R.id.cardsleft1);
         cardstotal = (TextView) findViewById(R.id.totalcards1);
         prev = (ImageButton) findViewById(R.id.previouscard);
@@ -71,13 +65,17 @@ public class socialmediacardsread extends AppCompatActivity implements firebasel
 
         ref = FirebaseDatabase.getInstance().getReference("courses").child(course).child(key).child("cards");
         ref2 = FirebaseDatabase.getInstance().getReference("users").child(uid).child("resume").child(coursename);
+        ref3 = FirebaseDatabase.getInstance().getReference("users").child(uid).child("lastposition");
+        reference = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+
         ref1 = FirebaseDatabase.getInstance().getReference("courses").child(course).child(key);
 
             readcards();
+
+
             viewPager.beginFakeDrag();
 
         firebaseloader1 = this;
-
 
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -85,18 +83,16 @@ public class socialmediacardsread extends AppCompatActivity implements firebasel
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
 
-                if(position==0){
+                cardsleft.setText(String.valueOf(position + 1));
                 cardstotal.setText(" / " + String.valueOf(cardcount));
-                cardsleft.setText(String.valueOf(currentpage + 1));}
-            }
+                readprogress(position);
+                currentpage=position;
 
+            }
             @Override
             public void onPageSelected(int position) {
-                if(position>0){
-                currentpage=position;
-                cardstotal.setText(" / " + String.valueOf(cardcount));
-                cardsleft.setText(String.valueOf(currentpage + 1));}
-             readprogress(position);
+
+
 
                 if (position == 0) {
                     prev.setEnabled(true);
@@ -160,13 +156,59 @@ public class socialmediacardsread extends AppCompatActivity implements firebasel
     private void readprogress(final int position) {
         currentpage = position;
         progress = (((double) (position + 1) / (double) cardcount) * 100.0);
-        HashMap<Object,Double> hashMap = new HashMap<>();
+
         progress= Double.parseDouble((String.format("%.2f", progress)));
-        hashMap.put("progress",progress);
-        ref2.setValue(hashMap);
+        progressindata();
+
+
+    }
+
+    private void progressindata() {
+        {
+
+            ref2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.child("progress").getValue() == null) {
+                        HashMap<Object, String> hashMap = new HashMap<>();
+                        hashMap.put("coursename",coursename);
+                        hashMap.put("progress", String.valueOf(progress));
+                        ref2.setValue(hashMap);
+                    } else {
+                        progressinfirebase = (Double.valueOf(String.valueOf(dataSnapshot.child("progress").getValue())));
+                        if(progressinfirebase==100.00){
+                            HashMap<Object, String> hashMap2 = new HashMap<>();
+                            hashMap2.put("coursename",coursename);
+                            reference.child("completed course").child(coursename).setValue(hashMap2);
+                        }
+                        if (progressinfirebase < progress) {
+                            HashMap<Object, String> hashMap = new HashMap<>();
+                            hashMap.put("coursename",coursename);
+                            hashMap.put("progress", String.valueOf(progress));
+                            ref2.setValue(hashMap);
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
     }
 
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "bhag", Toast.LENGTH_SHORT).show();
+        HashMap<Object, String> hashMap1 = new HashMap<>();
+        hashMap1.put("coursename",coursename);
+        hashMap1.put("lastposition",String.valueOf(currentpage));
+        ref3.child(coursename).setValue(hashMap1);
+        super.onBackPressed();
+
+    }
 
     public void readcards() {
             listener = new ValueEventListener() {
@@ -190,21 +232,41 @@ public class socialmediacardsread extends AppCompatActivity implements firebasel
             };
 
             ref.addListenerForSingleValueEvent(listener);
-
-
-
         }
 
 
 
-        @Override
+    @Override
         public void onfirebaseloadsucess (List < cardviewgetter > cardviewgetterList) {
-            adapter = new myadapter(this,cardviewgetterList, getLayoutInflater(),viewPager,2);
+        ref3.orderByChild("coursename").equalTo(coursename).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    if (ds.child("lastposition").getValue() == null){
+                        viewPager.setCurrentItem(0, true);
+                    }
 
+                else {
+                        lastposition = (Integer.parseInt(String.valueOf((ds.child("lastposition").getValue()))));
+                        viewPager.setCurrentItem(lastposition, true);
+                    }
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+            adapter = new myadapter(this,cardviewgetterList, getLayoutInflater(),viewPager,coursename);
             viewPager.setAdapter(adapter);
+
+
         }
 
-        @Override
+    @Override
         public void onfirebaseloadfailed (String message){
 
             Toast.makeText(this, "" + message, Toast.LENGTH_SHORT).show();

@@ -14,14 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".summary"></activity>
+        <activity android:name=".totalcompletedcourses"></activity>
+        <activity android:name=".checkpoint" />
+        <activity android:name=".summary" />
         <activity android:name=".coursecompleted" />
         <activity android:name=".firebasesearch" />
         <activity android:name=".editprofile" />
         <activity android:name=".loginactivity" />
         <activity android:name=".socialmedia" />
         <activity android:name=".socialmediacardsread" />
-        <activity android:name=".Main2Activity" />
+        <activity android:name=".Main2Activity"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

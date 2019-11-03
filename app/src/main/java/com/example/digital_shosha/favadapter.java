@@ -2,6 +2,7 @@ package com.example.digital_shosha;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class searchadapter extends RecyclerView.Adapter<searchadapter.myviewholder>{
+public class favadapter extends RecyclerView.Adapter<favadapter.myviewholder>{
 
     Context context;
     ArrayList<searchcourses> searchcoursesArrayList;
@@ -32,34 +34,33 @@ public class searchadapter extends RecyclerView.Adapter<searchadapter.myviewhold
     private FirebaseUser user;
     private FirebaseDatabase database;
     private FirebaseAuth mAuth;
-    private String uid1;
+    private String uid;
     int flag=1;
     String progress;
 
 
-    public searchadapter(Context context, ArrayList<searchcourses> searchcoursesArrayList) {
+    public favadapter(Context context, ArrayList<searchcourses> searchcoursesArrayList) {
         this.searchcoursesArrayList = searchcoursesArrayList;
         this.context=context;
-        searchadapter.this.notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.searchlistlayout,parent,false);
-
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.favlistlayout,parent,false);
         return new myviewholder(view);
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull final myviewholder holder, final int position) {
 
-        FirebaseAuth mauth=FirebaseAuth.getInstance();
-        FirebaseUser user1 = mauth.getCurrentUser();
-        uid1 = user1.getUid();
+        holder.course.setText(searchcoursesArrayList.get(position).getCoursename());
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user1 = mAuth.getCurrentUser();
+        String uid1 = user1.getUid();
 
-        final String coursename = searchcoursesArrayList.get(position).getCoursename();
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(uid1).child("resume");
+
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users").child(uid1);
         reference.child("resume").child(searchcoursesArrayList.get(position).getCoursename()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -91,42 +92,12 @@ public class searchadapter extends RecyclerView.Adapter<searchadapter.myviewhold
         });
 
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("favs").getChildrenCount() == 0 ) {
-                    holder.save.setImageResource(R.drawable.bookmarkyellow);
-                }
-                else {
-                    for (DataSnapshot dataSnapshot1 : dataSnapshot.child("favs").getChildren()) {
-
-                        String childvalue = dataSnapshot1.child("coursename").getValue().toString();
-                        if(childvalue.equals(coursename)){
-                            holder.save.setImageResource(R.drawable.bookmarkblue);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-        holder.course.setText(searchcoursesArrayList.get(position).getCoursename());
-
-
-
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(uid1).child("resume");
-
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String key = ds.getKey();
-                    if(key.equals(holder.course.getText())) {
+                    if (key.equals(holder.course.getText())) {
                         searchcoursesArrayList.get(position).setProgress(ds.child("progress").getValue().toString() + " % completed");
                         holder.progress.setText(searchcoursesArrayList.get(position).getProgress());
                     }
@@ -144,8 +115,6 @@ public class searchadapter extends RecyclerView.Adapter<searchadapter.myviewhold
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//
-
 
                 final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("courses").orderByChild("coursename").equalTo(searchcoursesArrayList.get(position).getCoursename()).getRef();
                 reference.addValueEventListener(new ValueEventListener() {
@@ -192,7 +161,7 @@ public class searchadapter extends RecyclerView.Adapter<searchadapter.myviewhold
             }
         });
 
-        holder.save.setOnClickListener(new View.OnClickListener() {
+        holder.delete.setOnClickListener(new View.OnClickListener() {
 
             FirebaseAuth mauth=FirebaseAuth.getInstance();
             FirebaseUser user1 = mauth.getCurrentUser();
@@ -201,54 +170,26 @@ public class searchadapter extends RecyclerView.Adapter<searchadapter.myviewhold
             @Override
             public void onClick(View v) {
                 final String coursename = searchcoursesArrayList.get(position).getCoursename();
-                final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users").child(uid1);
 
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+              final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child(uid1);
+
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.child("favs").getChildrenCount() == 0 ) {
-                            HashMap<Object, String> hashMap = new HashMap<>();
-                            hashMap.put("coursename", coursename);
-                            reference.child("favs").push().setValue(hashMap);
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show();
-                        }
+                        for (DataSnapshot appleSnapshot: dataSnapshot.child("favs").getChildren()) {
+                            if(appleSnapshot.child("coursename").getValue().toString().equals(coursename)){
+                                appleSnapshot.getRef().removeValue();
 
-                        else {
-
-
-
-                            flag=1;
-
-                            for (DataSnapshot dataSnapshot1 : dataSnapshot.child("favs").getChildren()) {
-
-                                String childvalue = dataSnapshot1.child("coursename").getValue().toString();
-
-                                if (childvalue.equals(coursename)) {
-                                    flag = 0;
-                                    Toast.makeText(context, "Already In Your Favourites", Toast.LENGTH_SHORT).show();
-
-
-                                }
-
-                                }
-
-                                if(flag==1){
-
-                                    HashMap<Object, String> hashMap = new HashMap<>();
-                                    hashMap.put("coursename", coursename);
-                                   reference.child("favs").push().setValue(hashMap);
-
-                                    Toast.makeText(context, "Added to your favorites", Toast.LENGTH_SHORT).show(); }
+                            }
 
                         }
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(context, "Error:"+databaseError.toException(), Toast.LENGTH_SHORT).show();
                     }
-
                 });
 
             }
@@ -266,14 +207,14 @@ public class searchadapter extends RecyclerView.Adapter<searchadapter.myviewhold
 
         TextView course,progress;
         CardView cardView;
-        ImageView save,courseimages;
+        ImageView delete,courseimages;
         public myviewholder(@NonNull View itemView) {
             super(itemView);
             course=itemView.findViewById(R.id.coursenamesearch);
             progress=itemView.findViewById(R.id.progresssearch);
             cardView= itemView.findViewById(R.id.coursecard);
-            save=itemView.findViewById(R.id.savetofav);
-            courseimages=itemView.findViewById(R.id.courseimage);
+            delete=itemView.findViewById(R.id.deletedata);
+            courseimages=itemView.findViewById(R.id.courseimages);
 
         }
     }

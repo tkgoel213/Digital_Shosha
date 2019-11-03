@@ -87,10 +87,6 @@ public class signupactivity extends AppCompatActivity {
       signupfbbutton.setReadPermissions(Arrays.asList("email"));
 
 
-
-
-
-
         gsign.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -263,14 +259,11 @@ public class signupactivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
-             //   startActivity(new Intent(signupactivity.this,editprofile.class));
+
             } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
                 Toast.makeText(this, "" +e.getMessage(), Toast.LENGTH_SHORT).show();
-                // ...
             }
         }
     }
@@ -283,7 +276,6 @@ public class signupactivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
 
                             FirebaseUser user = mAuth.getCurrentUser();
                             String personName = acct.getDisplayName();
@@ -296,12 +288,14 @@ public class signupactivity extends AppCompatActivity {
                             hashMap.put("uid",uid);
                             hashMap.put("image","");
                             hashMap.put("contactnumber","");
+                            hashMap.put("favs","");
+
 
                             FirebaseDatabase database=FirebaseDatabase.getInstance();
                             DatabaseReference reference=database.getReference("users");
                             reference.child(uid).setValue(hashMap);
                             updateUI(user);
-                            startActivity(new Intent(signupactivity.this,firebasesearch.class));
+                            startActivity(new Intent(signupactivity.this,socialmedia.class));
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.

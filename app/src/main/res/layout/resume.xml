@@ -2,61 +2,76 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@drawable/rectanglesmall"
+    android:layout_marginTop="0dp"
+    android:background="@drawable/rectanglewhitesmall"
     android:layout_height="match_parent">
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/heading"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/pmedium"
-                android:text="Lets get back "
-                android:textColor="#000"
-                android:textSize="25sp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="30dp"
-                android:fontFamily="@font/pmedium"
-                android:text="to learning "
-                android:textColor="#000"
-                android:textSize="25sp"
-                />
+                android:layout_height="wrap_content">
 
-            <Button
+                <TextView
+                    android:id="@+id/heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/pmedium"
+                    android:layout_marginEnd="100dp"
+                    android:text="Let's get back to  learning "
+                    android:textAlignment="viewStart"
+                    android:textColor="#020B42"
+                    android:textSize="22sp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    app:civ_border_color="@color/colorwhite"
+                    app:civ_border_width="3dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="25dp"
+                    android:id="@+id/propic"
+                    android:layout_marginEnd="41dp"
+                    android:layout_marginBottom="0dp"
+                    />
+
+                <EditText
+                    android:id="@+id/searchbarresume"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/heading"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="30dp"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/editroundgrey"
+                    android:cursorVisible="false"
+                    android:drawableEnd="@drawable/searchgirebase"
+                    android:fontFamily="@font/pmedium"
+                    android:hint="Search here"
+                    android:paddingStart="20dp"
+                    android:textSize="15dp" />
+            </RelativeLayout>
+
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/heading"
-                android:drawableLeft="@drawable/ic_search_black_24dp"
-                android:hint="Search here"
-                android:fontFamily="@font/plight"
-                android:id="@+id/searchbarhai"
                 android:layout_marginTop="40dp"
-                android:drawablePadding="20dp"
-                android:textAlignment="viewStart"
-                android:layout_marginHorizontal="30dp"
-                android:background="@drawable/editroundgrey"
-                />
+                android:layout_marginHorizontal="10dp"
+                android:id="@+id/myrecyclerview"
+                android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
     </ScrollView>

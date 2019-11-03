@@ -12,11 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.bumptech.glide.Glide;
-import com.bumptech.glide.Glide;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -39,31 +40,41 @@ public class homepage extends AppCompatActivity {
     FirebaseUser user;
     FirebaseAuth mAuth;
     FirebaseDatabase database;
-    DatabaseReference ref;
+    DatabaseReference ref,ref1;
     TextView share;
     TextView feedback;
 
    ImageButton editprofile;
-    TextView sign_out;
+    TextView sign_out,totalcompcourses;
     TextView nameTV;
     TextView emailTV;
     TextView idTV;
     ImageView photoIV;
     TextView tofirebase;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         mAuth=FirebaseAuth.getInstance();
+        progressBar=findViewById(R.id.progress_bar);
+
+
+
         user=mAuth.getCurrentUser();
-       share=(TextView)findViewById(R.id.share);
         if(user==null){
             Intent intent=new Intent(homepage.this,signupactivity.class);
             startActivity(intent);
         }
+        String uid = user.getUid();
+        totalcompcourses=findViewById(R.id.numberofcompletedcourse);
+        ref1 = FirebaseDatabase.getInstance().getReference("users").child(uid).child("completed course");
+       share=(TextView)findViewById(R.id.share);
+
+
         database=FirebaseDatabase.getInstance();
-        ref=database.getReference("users");
+        ref=database.getReference("users").child(uid);
         tofirebase=findViewById(R.id.tofirebase);
         sign_out = findViewById(R.id.log_out);
         nameTV = findViewById(R.id.name);
@@ -71,26 +82,44 @@ public class homepage extends AppCompatActivity {
         emailTV = findViewById(R.id.email);
         feedback=(TextView)findViewById(R.id.feedback);
         photoIV = findViewById(R.id.photo);
-       Query query=ref.orderByChild("emailid").equalTo(user.getEmail());
-        query.addValueEventListener(new ValueEventListener() {
+
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    String name="" +ds.child("name").getValue();
-                    String email="" +ds.child("emailid").getValue();
-                    String image="" +ds.child("image").getValue();
 
-                    nameTV.setText(name);
-                    emailTV.setText(email);
-                    try {
-                        Picasso.get().load(image).into(photoIV);
-                    }
-                    catch(Exception e){
-                        Picasso.get().load(R.drawable.download).into(photoIV);
+                String name="" +dataSnapshot.child("name").getValue();
+                String email="" +dataSnapshot.child("emailid").getValue();
+                nameTV.setText(name);
+                emailTV.setText(email);
 
+                if(dataSnapshot.child("image").getValue().toString().isEmpty()){
+                    photoIV.setImageResource(R.drawable.badge1c);
+                }
+
+                else {
+                    String uri = (dataSnapshot.child("image").getValue().toString());
+                    if(!uri.isEmpty()){
+                        Picasso.get().load(uri).into(photoIV);
                     }
 
                 }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        ref1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long total=0;
+                 total=dataSnapshot.getChildrenCount();
+                totalcompcourses.setText(String.valueOf(total));
+               progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -98,6 +127,8 @@ public class homepage extends AppCompatActivity {
 
             }
         });
+
+
 
         tofirebase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,7 +187,7 @@ public class homepage extends AppCompatActivity {
         editprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(homepage.this, com.example.digital_shosha.editprofile.class));
+                startActivity(new Intent(homepage.this, editprofile.class));
                 finish();
             }
         });
@@ -175,8 +206,10 @@ public class homepage extends AppCompatActivity {
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(homepage.this);
         if (acct != null) {
             Uri personPhoto = acct.getPhotoUrl();
-           Glide.with(this).load(personPhoto).into(photoIV);
+         //  Glide.with(this).load(personPhoto).into(photoIV);
+           Picasso.get().load(personPhoto).into(photoIV);
         }
+        //progressBar.setVisibility(View.INVISIBLE);
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -184,6 +217,8 @@ public class homepage extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void signOut() {
         mGoogleSignInClient.signOut()

@@ -8,6 +8,8 @@
     android:layout_height="match_parent"
     tools:context=".homepage">
 
+
+
     <ImageButton
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -26,50 +28,53 @@
         android:textColor="#FFFFFF"
         android:fontFamily="@font/pmedium"
         android:id="@+id/heading"
-        android:textSize="50sp"/>
+        android:textSize="50dp"/>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/heading"
-        android:layout_marginTop="10dp"
-        >
+        android:layout_marginHorizontal="5dp"
+        android:layout_alignParentStart="true"
+       >
 
         <androidx.cardview.widget.CardView
             android:layout_width="120dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="20dp"
-            app:cardCornerRadius="10dp"
-            android:layout_height="120dp">
-
-        <ImageView
-            android:id="@+id/photo"
-            android:layout_width="120dp"
             android:layout_height="120dp"
-            />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:id="@+id/photo"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/name"
-            android:layout_marginTop="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-           android:layout_marginLeft="160dp"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="40dp"
             android:fontFamily="@font/pmedium"
             android:text="Name:"
             android:textColor="#000"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <ImageButton
             android:id="@+id/editprofileuser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="60dp"
+            android:layout_alignBottom="@+id/name"
+            android:layout_marginStart="7dp"
+            android:layout_marginBottom="6dp"
             android:layout_toRightOf="@+id/name"
             android:background="@drawable/profileedit" />
+
         <TextView
             android:id="@+id/email"
             android:layout_width="wrap_content"
@@ -79,250 +84,263 @@
             android:fontFamily="@font/pmedium"
             android:text="Email:"
             android:textColor="#000"
-            android:textSize="18sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/email"
-            android:layout_marginLeft="160dp"
+            android:layout_marginStart="160dp"
             android:fontFamily="@font/pmedium"
             android:text="Humble Begineer"
             android:textColor="#000"
-            android:textSize="18sp" />
+            android:textSize="12sp" />
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/level"
+            android:layout_marginTop="40dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/progress_bar"
+            />
 
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/completecoursecard"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:layout_marginHorizontal="25dp"
-        app:cardCornerRadius="5dp"
-        app:cardBackgroundColor="#FDFDFD"
-        android:layout_below="@+id/email"
-        >
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_below="@+id/progress_bar"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tofirebase"
-            android:drawableStart="@drawable/taskcomp"
-            android:drawablePadding="15dp"
-            android:text="Completed Courses"
-            android:layout_gravity="center_vertical"
-
-            android:layout_marginHorizontal="10dp"
-            android:fontFamily="@font/plight"
-            android:textSize="18sp"
-            android:textColor="#000"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/numberofcompletedcourse"
-            android:layout_marginLeft="50dp"
-            android:layout_gravity="end"
-            android:text="23"
-            android:textSize="20sp"
-            android:textColor="#000"
-            android:fontFamily="@font/pmedium"
-            />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/completecoursecard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            app:cardBackgroundColor="#FDFDFD"
+            app:cardCornerRadius="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tofirebase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="10dp"
+                    android:drawableStart="@drawable/taskcomp"
+                    android:drawablePadding="15dp"
+                    android:fontFamily="@font/plight"
+                    android:text="Completed Courses"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/numberofcompletedcourse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/pmedium"
+                    android:text="0"
+                    android:textColor="#000"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:id="@+id/badgesearned"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/completecoursecard"
             android:layout_centerHorizontal="true"
             android:layout_marginHorizontal="25dp"
             android:layout_marginTop="10dp"
-            app:cardCornerRadius="5dp"
             app:cardBackgroundColor="#FDFDFD"
+            app:cardCornerRadius="5dp"
 
             >
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Checkpoints"
-                    android:fontFamily="@font/plight"
                     android:layout_gravity="center_vertical"
-
-                    android:drawableStart="@drawable/targeting"
-                    android:drawablePadding="15dp"
                     android:layout_marginHorizontal="10dp"
-                    android:textSize="18sp"
+                    android:drawableStart="@drawable/targeting"
+
+                    android:drawablePadding="15dp"
+                    android:fontFamily="@font/plight"
+                    android:text="Checkpoints"
                     android:textColor="#000"
-                    />
+                    android:textSize="18sp" />
+
                 <TextView
+                    android:id="@+id/noofbadgesearned"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/noofbadgesearned"
-                    android:text="1/10"
-                    android:layout_marginLeft="110dp"
                     android:layout_gravity="end"
-                    android:textSize="20sp"
-                    android:textColor="#000"
+                    android:layout_marginStart="60dp"
                     android:fontFamily="@font/pmedium"
-                    />
+                    android:text="1/10"
+                    android:textColor="#000"
+                    android:textSize="20sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
+            android:id="@+id/feedbackcard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/feedbackcard"
             android:layout_below="@+id/referafriendcard"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="5dp"
             android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="10dp"
             app:cardBackgroundColor="#FDFDFD"
+            app:cardCornerRadius="5dp"
 
             >
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
 
                 <TextView
+                    android:id="@+id/feedback"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Feedback"
-                    android:id="@+id/feedback"
-                    android:fontFamily="@font/plight"
                     android:layout_gravity="center_vertical"
-
-                    android:drawableStart="@drawable/survey"
-                    android:drawablePadding="15dp"
                     android:layout_marginHorizontal="10dp"
-                    android:textSize="18sp"
+                    android:drawableStart="@drawable/survey"
+
+                    android:drawablePadding="15dp"
+                    android:fontFamily="@font/plight"
+                    android:text="Feedback"
                     android:textColor="#000"
-                    />
+                    android:textSize="18sp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/referafriendcard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/referafriendcard"
             android:layout_below="@+id/badgesearned"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="5dp"
             android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="10dp"
             app:cardBackgroundColor="#FDFDFD"
+            app:cardCornerRadius="5dp"
 
             >
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
 
                 <TextView
+                    android:id="@+id/share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Refer a Friend"
-                    android:id="@+id/share"
-                    android:drawableStart="@drawable/share"
                     android:layout_gravity="center_vertical"
-
-                    android:fontFamily="@font/plight"
-                    android:drawablePadding="15dp"
                     android:layout_marginHorizontal="10dp"
-                    android:textSize="18sp"
+                    android:drawableStart="@drawable/share"
+
+                    android:drawablePadding="15dp"
+                    android:fontFamily="@font/plight"
+                    android:text="Refer a Friend"
                     android:textColor="#000"
-                    />
+                    android:textSize="18sp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/Rateuscard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/Rateuscard"
             android:layout_below="@+id/feedbackcard"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="5dp"
             android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="10dp"
             app:cardBackgroundColor="#FDFDFD"
+            app:cardCornerRadius="5dp"
 
             >
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
 
                 <TextView
+                    android:id="@+id/rateus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rateus"
-                    android:text="Rate us"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="10dp"
 
                     android:drawableStart="@drawable/rating"
                     android:drawablePadding="15dp"
                     android:fontFamily="@font/plight"
-                    android:layout_marginHorizontal="10dp"
-                    android:textSize="18sp"
+                    android:text="Rate us"
                     android:textColor="#000"
-                    />
+                    android:textSize="18sp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/logoutcard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/logoutcard"
             android:layout_below="@+id/Rateuscard"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="5dp"
             android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="10dp"
             app:cardBackgroundColor="#FDFDFD"
+            app:cardCornerRadius="5dp"
 
             >
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
-
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
 
                 <TextView
+                    android:id="@+id/log_out"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Log out"
-                    android:id="@+id/log_out"
                     android:layout_gravity="center_vertical"
-                    android:drawableStart="@drawable/logout"
-                    android:fontFamily="@font/plight"
-                    android:drawablePadding="15dp"
                     android:layout_marginHorizontal="10dp"
-                    android:textSize="18sp"
+                    android:drawableStart="@drawable/logout"
+                    android:drawablePadding="15dp"
+                    android:fontFamily="@font/plight"
+                    android:text="Log out"
                     android:textColor="#000"
-                    />
+                    android:textSize="18sp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+        </LinearLayout>
     </RelativeLayout>
 
 

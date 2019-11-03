@@ -6,12 +6,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,18 +37,17 @@ import java.util.HashMap;
 public class socialmedia extends AppCompatActivity {
 
 
-    private ImageView s1, s2;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private FirebaseDatabase database;
-    private FirebaseStorage store;
     private DatabaseReference ref;
-    private TextView coursename1, coursename2;
     private TextView progress1, progress2;
     private RecyclerView recyclerView;
+
     ArrayList<searchcourses> list = new ArrayList<>();
     private String uid;
-    int flag = 0;
+    ProgressBar progressBar;
+
 
 
     @Override
@@ -54,13 +55,16 @@ public class socialmedia extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_socialmedia);
 
-        s1 = (ImageView) findViewById(R.id.savetofav);
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclercourses);
+        progressBar=findViewById(R.id.progress_bar);
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
+         user = mAuth.getCurrentUser();
         uid = user.getUid();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("courses").child("brand positioning");
+         database = FirebaseDatabase.getInstance();
+         ref = FirebaseDatabase.getInstance().getReference("courses").child("brand positioning");
+        ref.keepSynced(true);
+
 
 
         ref.addValueEventListener(new ValueEventListener() {
@@ -73,6 +77,7 @@ public class socialmedia extends AppCompatActivity {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 searchadapter adp = new searchadapter(getApplicationContext(), list);
                 recyclerView.setAdapter(adp);
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
